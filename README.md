@@ -29,6 +29,7 @@ Documentation and Runtime Stats for anvl
 
 #### Console Todo
 
+- Wifi AP mgr - ssid & pw textboxes, delete checkbox, confirm button
 - Error log
 - Terminal in browswer
 
