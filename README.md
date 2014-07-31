@@ -1,32 +1,34 @@
 info-anvl
 =========
 
-#### Docs
+Documentation and Runtime Stats for anvl
+
+#### Use
+
+    $ sudo node info.js & # then browse to http://anvl-host/
+
+#### Docs Todo
 
 - HW specs
 - SW packages
-- Getting Started: ssid/pw, nmtui, 
+- Getting Started: charging, ssid/pw, nmtui, 
+- LED indicators
+- Switch
 - Windows WiFi P2P config
 - USB ethernet & serial
 - USB Boot
 - Github repos
 
-#### Config
+#### Config Todo
 
-- page-update interval text-box
-- Battery level, charger state
-- LED state
+- Battery level
 - Speaker volume
-- RTC time
-- Kernel version
-- Ethernet address
 - WiFi AP list
 - WiFi P2P SSID, client list
-- USB ethernet link
-- eMMC du
-- Samba store du
-- Network listeners
-- Uptime
-- Error log URL
-- ps URL
+- Network ports open
+
+#### Console Todo
+
+- Error log
 - Terminal in browswer
+
