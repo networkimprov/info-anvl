@@ -36,6 +36,29 @@ sSrvr.listen(sPort, function(err) {
 });
 
 function handleRequest(iReq, oResponse) {
+  switch (iReq.url) {
+  case '/':     reqDoc (fRespond); break;
+  case '/stat': reqStat(fRespond); break;
+  case '/con':  reqCon (fRespond); break;
+  default:      fRespond(null, 'error', 'page not found', 400);
+  }
+  function fRespond(err, title, body, code) {
+    if (err) throw err;
+    oResponse.writeHead(code ? code : 200, {'Content-Type': 'text/html'});
+    oResponse.end(sTmpl.replace('untitled', title).replace('unwritten', body));
+  }
+}
+
+function reqDoc(iCallback) {
+  var aBuf = lFs.readFileSync(__dirname+'/doc.html');
+  iCallback(null, 'ANVL Docs', aBuf.toString());
+}
+
+function reqCon(iCallback) {
+  iCallback(null, 'ANVL Console', 'dials n knobs here');
+}
+
+function reqStat(iCallback) {
   var aChildren = '--ppid ';
   for (var aN=0; aN < sCmdList.length; ++aN)
     fExec(sCmdList[aN]);
@@ -53,8 +76,7 @@ function handleRequest(iReq, oResponse) {
       for (aN=0; aN < sCmdList.length; ++aN)
         aTable += '<tr><td>'+sCmdList[aN].n+'</td><td><pre>'+sCmdList[aN].b.toString()+'</pre></td></tr>\n';
       aTable += '</table>';
-      oResponse.writeHead(200, {'Content-Type': 'text/html'});
-      oResponse.end(sTmpl.replace('untitled', 'System Stats').replace('unwritten', aTable));
+      iCallback(null, 'ANVL System Stats', aTable);
     }
   }
 }
