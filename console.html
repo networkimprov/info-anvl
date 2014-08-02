@@ -1,0 +1,29 @@
+
+<script type="text/javascript">
+  function setDelete(iOn) {
+    var aEl = document.getElementById('formpw');
+    if (iOn) aEl.value = '';
+    aEl.disabled = iOn;
+    document.getElementById('formencr').disabled = iOn;
+  }
+</script>
+
+<form method="POST" action="/setap">
+<table style="font-family:sans"><tr>
+  <td colspan="3">Add/Edit Wireless Network</td>
+</tr><tr>
+  <td>SSID</td><td><input name="ssid" type="text" width="5em"/></td>
+  <td><select id="formencr" name="encr">
+    <option value="none">No Encryption</option>
+    <option value="wpa2">WPA2</option>
+    <option value="wpa">WPA</option>
+    <option value="wep">WEP</option>
+    </select></td>
+  <td></td>
+</tr><tr>
+  <td>PW</td><td><input id="formpw" name="pw" type="password" width="5em"/></td>
+  <td><input id="formrm" name="rm" value="1" type="checkbox" onclick="setDelete(!!this.checked)"/><label for="formrm">Delete</label></td>
+  <td><input value="Confirm" type="submit"/></td>
+</tr></table>
+</form>
+

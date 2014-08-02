@@ -10,6 +10,7 @@
 var lHttp = require('http');
 var lChild = require('child_process');
 var lFs = require('fs');
+var lQs = require('querystring');
 
 var sPort = 80;
 var sTmpl = lFs.readFileSync(__dirname+'/pagetmpl.html').toString();
@@ -37,12 +38,13 @@ sSrvr.listen(sPort, function(err) {
 
 function handleRequest(iReq, oResponse) {
   switch (iReq.url) {
-  case '/':     reqDoc (fRespond); break;
-  case '/stat': reqStat(fRespond); break;
-  case '/con':  reqCon (fRespond); break;
-  default:      fRespond(null, 'error', 'page not found', 400);
+  case '/':      reqDoc (fPage); break;
+  case '/stat':  reqStat(fPage); break;
+  case '/con':   reqCon (fPage); break;
+  case '/setap': iReq.on('data', function(buf) { setAp(buf, oResponse) }); break;
+  default:       fPage(null, 'error', 'page not found', 400);
   }
-  function fRespond(err, title, body, code) {
+  function fPage(err, title, body, code) {
     if (err) throw err;
     oResponse.writeHead(code ? code : 200, {'Content-Type': 'text/html'});
     oResponse.end(sTmpl.replace('untitled', title).replace('unwritten', body));
@@ -55,7 +57,14 @@ function reqDoc(iCallback) {
 }
 
 function reqCon(iCallback) {
-  iCallback(null, 'ANVL Console', 'dials n knobs here');
+  var aBuf = lFs.readFileSync(__dirname+'/console.html');
+  iCallback(null, 'ANVL Console', aBuf.toString());
+}
+
+function setAp(iPost, oResponse) {
+  var aQ = lQs.parse(iPost.toString());
+  oResponse.writeHead(200, {'Content-Type': 'text/plain'});
+  oResponse.end(JSON.stringify(aQ));
 }
 
 function reqStat(iCallback) {
