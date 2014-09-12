@@ -9,17 +9,10 @@ Documentation and Runtime Stats for anvl
 
 #### Docs Todo
 
-- HW specs
-- SW packages
-- Getting Started: charging, ssid/pw, nmtui, 
-- LED indicators
-- Switch
-- Windows WiFi P2P config
-- USB ethernet & serial
-- USB Boot
-- Github repos
+- Writing
+- Photos
 
-#### Config Todo
+#### Stats Todo
 
 - Battery level
 - Speaker volume
@@ -29,7 +22,7 @@ Documentation and Runtime Stats for anvl
 
 #### Console Todo
 
-- Wifi AP mgr - ssid & pw textboxes, delete checkbox, confirm button
+- Wifi AP mgr - scanned APs menu, ssid & pw textboxes, encr menu, delete checkbox, confirm button
 - Error log
 - Terminal in browswer
 
