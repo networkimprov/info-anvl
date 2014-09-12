@@ -5,7 +5,8 @@ Documentation and Runtime Stats for anvl
 
 #### Use
 
-    $ sudo node info.js & # then browse to http://anvl-host/
+    $ go build info.go
+    $ sudo ./info & # then browse to http://anvl-host/
 
 #### Docs Todo
 
