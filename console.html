@@ -27,3 +27,32 @@
 </tr></table>
 </form>
 
+<div id="termwin"></div>
+<script src="/term.js"></script>
+<script>
+;(function() {
+  window.onload = function() {
+    var sTerm;
+    var sWs = new WebSocket('ws://'+window.location.host+'/ws');
+    sWs.onopen = function (event) {
+      sTerm = new Terminal({
+        cols: 80,
+        rows: 24,
+        useStyle: true,
+        screenKeys: true,
+        cursorBlink: false
+      });
+
+      sTerm.on('data', function(data) { sWs.send(data) });
+      sTerm.on('title', function(title) { /*document.title = title*/ });
+
+      sTerm.open(document.getElementById('termwin'));
+      sTerm.write('\x1b[31mWelcome to term.js!\x1b[m\r\n');
+    };
+    sWs.onmessage = function (event) { sTerm.write(event.data) };
+    sWs.onclose = function(event) { sTerm.destroy() };
+    sWs.onerror = function(event) { console.log(event) };
+  };
+}).call(this);
+</script>
+
