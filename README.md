@@ -5,8 +5,9 @@ Documentation and Runtime Stats for anvl
 
 #### Use
 
-    $ go build info.go
-    $ sudo ./info & # then browse to http://anvl-host/
+    $ go build
+    $ sudo ./info-anvl [share-directory] &
+    # browse to http://anvl-host/
 
 #### Docs Todo
 

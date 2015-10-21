@@ -24,13 +24,22 @@ import (
   "github.com/kr/pty"
 )
 
-var sDirname = filepath.Dir(os.Args[0])
+var sDirname = filepath.Dir(os.Args[0])+"/share"
 
 var sTmpl *template.Template
 type tPageData struct { Title string; Main []byte }
 
 func main() {
     var err error
+    if len(os.Args) == 2 {
+        sDirname = os.Args[1]
+        var aInfo os.FileInfo
+        aInfo, err = os.Stat(sDirname)
+        if err != nil || !aInfo.IsDir() {
+          fmt.Fprintln(os.Stderr, sDirname, "is not a directory")
+          os.Exit(1)
+        }
+    }
     sTmpl, err = template.ParseFiles(sDirname+"/pagetmpl.html")
     if err != nil { panic(err) }
     fmt.Println("ready")
