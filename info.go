@@ -68,13 +68,13 @@ func reqDoc(oResp http.ResponseWriter, iReq *http.Request) {
 type tCommand struct { name, c string; buf []byte }
 var sCmdList = [...]tCommand {
   { name:"Date",       c:"/bin/date" },
-  { name:"Battery",    c:"/bin/sh "+sDirname+"/batt-state.sh /sys/class/power_supply/bq24190-battery" },
+  { name:"Battery",    c:"/bin/bash "+sDirname+"/batt-state.sh /sys/class/power_supply/bq24190-battery" },
   { name:"Speaker",    c:"/usr/bin/printf " },
-  { name:"LEDs",       c:"/bin/sh "+sDirname+"/led-state.sh /sys/class/leds" },
+  { name:"LEDs",       c:"/bin/bash "+sDirname+"/led-state.sh /sys/class/leds" },
   { name:"CPU",        c:"/bin/bash "+sDirname+"/cpu-state.sh" },
-  { name:"RAM",        c:"/bin/sh -c top\t-bn1\t-p1|sed\t-n\t4,5p" },
+  { name:"RAM",        c:"/bin/bash -c top\t-bn1\t-p1|sed\t-n\t4,5p" },
   { name:"Disk",       c:"/bin/df -m /" },
-  { name:"WLANs",      c:"/usr/bin/printf " },
+  { name:"WLANs",      c:"/bin/bash "+sDirname+"/wlan-state.sh" },
   { name:"Wifi",       c:"/sbin/ip addr show mlan0" },
   { name:"Wifi P2P",   c:"/sbin/ip addr show p2p0" },
   { name:"USB",        c:"/sbin/ip addr show usb1" },
