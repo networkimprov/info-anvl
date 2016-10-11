@@ -77,7 +77,7 @@ var sCmdList = [...]tCommand {
   { name:"WLANs",      c:"/bin/bash "+sDirname+"/wlan-state.sh" },
   { name:"Wifi",       c:"/sbin/ip addr show mlan0" },
   { name:"Wifi P2P",   c:"/sbin/ip addr show p2p0" },
-  { name:"USB",        c:"/sbin/ip addr show usb1" },
+  { name:"USB",        c:"/sbin/ip addr show usb0" },
   { name:"Kernel",     c:"/bin/uname -srv" },
   { name:"Processes",  c:"/bin/ps -FN --pid 1,2 --ppid 2,"+fmt.Sprintf("%d", os.Getpid())+" -C agetty --sort=-rss" },
 }
