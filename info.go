@@ -142,7 +142,7 @@ fmt.Println(aC.name, aC.c)
   fRun()
   aTable := make([]byte, 0, 8192)
   aTable = append(aTable, "<table>\n"...);
-  const kRow = "<tr><td>%s</td><td><pre>%s</pre></td></tr>\n"
+  const kRow = "<tr><td style=\"vertical-align:text-top;font-family:sans-serif;\">%s</td><td><pre>%s</pre></td></tr>\n"
   for a := 0; a < len(sCmdList); a++ {
     aTable = append(aTable, fmt.Sprintf(kRow, sCmdList[a].name, sCmdList[a].buf)...) //. protect from html
     sCmdList[a].buf = []byte{}
