@@ -72,7 +72,7 @@ var sCmdList = [...]tCommand {
   { name:"Battery",    c:"/bin/bash "+sDirname+"/batt-state.sh" },
   { name:"Disk",       c:"/bin/df -m /" },
   { name:"CPU",        c:"/bin/bash "+sDirname+"/cpu-state.sh" },
-  { name:"RAM",        c:"/bin/bash -c top\t-bn1\t-p1|sed\t-n\t4,5p" },
+  { name:"RAM",        c:"/bin/bash "+sDirname+"/mem-state.sh" },
   { name:"WLANs",      c:"/bin/bash "+sDirname+"/wlan-state.sh" },
   { name:"Wifi",       c:"/bin/ip addr show mlan0" },
   { name:"P2P",        c:"/bin/ip addr show p2p0" },
