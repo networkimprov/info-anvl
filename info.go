@@ -68,7 +68,7 @@ func reqDoc(oResp http.ResponseWriter, iReq *http.Request) {
 type tCommand struct { name, c string; buf []byte }
 var sCmdList = [...]tCommand {
   { name:"Date",       c:"/bin/date" },
-  { name:"Battery",    c:"/bin/bash "+sDirname+"/batt-state.sh /sys/class/power_supply/bq24190-battery" },
+  { name:"Battery",    c:"/bin/bash "+sDirname+"/batt-state.sh" },
   { name:"Speaker",    c:"/usr/bin/printf " },
   { name:"LEDs",       c:"/bin/bash "+sDirname+"/led-state.sh /sys/class/leds" },
   { name:"CPU",        c:"/bin/bash "+sDirname+"/cpu-state.sh" },
