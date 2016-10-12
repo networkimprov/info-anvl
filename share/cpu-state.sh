@@ -29,5 +29,6 @@ while let "a > 1"; do
 done
 #let "lhs = totalB - totalA"; echo "= $lhs"
 
-printf "CPU %%  %d.%d user, %d.%d niced, %d.%d system, %d.%d idle, %d.%d iowait, %d.%d irq, %d.%d softirq\n" $args
+printf "User %%  Niced   System  Idle    IOWait  IRQ     SoftIRQ\n"
+printf "%4d.%d  %4d.%d  %4d.%d  %4d.%d  %4d.%d  %4d.%d  %5d.%d\n" $args
 
