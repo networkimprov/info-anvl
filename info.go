@@ -79,7 +79,7 @@ var sCmdList = [...]tCommand {
   { name:"Wifi P2P",   c:"/sbin/ip addr show p2p0" },
   { name:"USB",        c:"/sbin/ip addr show usb0" },
   { name:"Kernel",     c:"/bin/uname -srv" },
-  { name:"Processes",  c:"/bin/ps -FN --pid 1,2 --ppid 2,"+fmt.Sprintf("%d", os.Getpid())+" -C agetty --sort=-rss" },
+  { name:"Processes",  c:"/bin/ps -FN --ppid 2,"+fmt.Sprintf("%d", os.Getpid())+" --sort=-rss" },
 }
 
 var sStatDoor sync.Mutex
