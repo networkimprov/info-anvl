@@ -79,7 +79,7 @@ var sCmdList = [...]tCommand {
   { name:"USB",        c:"/bin/ip addr show usb0" },
   { name:"Speaker",    c:"/bin/printf " },
   { name:"LEDs",       c:"/bin/bash "+sDirname+"/led-state.sh" },
-  { name:"Processes",  c:"/bin/ps -FN --pid 2 --ppid 2,"+fmt.Sprintf("%d", os.Getpid())+" --sort=-time,-rss" },
+  { name:"PS",         c:"/bin/ps -FN --pid 2 --ppid 2,"+fmt.Sprintf("%d", os.Getpid())+" --sort=-time,-rss" },
 }
 
 var sStatDoor sync.Mutex
@@ -92,7 +92,7 @@ func reqStat(oResp http.ResponseWriter, iReq *http.Request) {
   var fRun = func() {
     var aProc *tCommand
     for a := range sCmdList {
-      if sCmdList[a].name == "Processes" {
+      if sCmdList[a].name == "PS" {
         aProc = &sCmdList[a]
       } else {
         aHerd.Add(1)
@@ -117,7 +117,7 @@ fmt.Println(aC.name, aC.c)
     if err != nil { panic(err) }
     err = aCmd.Start()
     if err != nil { panic(err) }
-    if aC.name != "Processes" {
+    if aC.name != "PS" {
       aPidLink <- aCmd.Process.Pid
     }
     aBuf := make([]byte, 512)
@@ -134,7 +134,7 @@ fmt.Println(aC.name, aC.c)
     }
     err = aCmd.Wait()
     if err != nil { fmt.Fprintln(os.Stderr, aC.name, err) }
-    if aC.name != "Processes" {
+    if aC.name != "PS" {
       aHerd.Done()
     }
   }
@@ -142,7 +142,7 @@ fmt.Println(aC.name, aC.c)
   fRun()
   aTable := make([]byte, 0, 8192)
   aTable = append(aTable, "<table>\n"...);
-  const kRow = "<tr><td style=\"vertical-align:text-top;font-family:sans-serif;\">%s</td><td><pre>%s</pre></td></tr>\n"
+  const kRow = "<tr><td class=\"stat\">%s</td><td><pre>%s</pre></td></tr>\n"
   for a := 0; a < len(sCmdList); a++ {
     aTable = append(aTable, fmt.Sprintf(kRow, sCmdList[a].name, sCmdList[a].buf)...) //. protect from html
     sCmdList[a].buf = []byte{}
