@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FIELDS='%-9s%-9s%-15s%s\n'
+FIELDS='%-11s  %-11s  %-11s  %s\n'
 
 cd /sys/class/power_supply
 exec < bq24190-battery/online ; read online
@@ -14,6 +14,6 @@ else
   status=Charging
 fi
 
-printf $FIELDS Online Charge Status Health
-printf $FIELDS "$online" "$charge" "$status" "$health"
+printf "$FIELDS" Online Charge Status Health
+printf "$FIELDS" "$online" "$charge"% "$status" "$health"
 
