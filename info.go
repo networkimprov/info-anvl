@@ -68,17 +68,17 @@ func reqDoc(oResp http.ResponseWriter, iReq *http.Request) {
 type tCommand struct { name, c string; buf []byte }
 var sCmdList = [...]tCommand {
   { name:"Date",       c:"/bin/date" },
+  { name:"Kernel",     c:"/bin/uname -srv" },
   { name:"Battery",    c:"/bin/bash "+sDirname+"/batt-state.sh" },
-  { name:"Speaker",    c:"/usr/bin/printf " },
-  { name:"LEDs",       c:"/bin/bash "+sDirname+"/led-state.sh /sys/class/leds" },
+  { name:"Disk",       c:"/bin/df -m /" },
   { name:"CPU",        c:"/bin/bash "+sDirname+"/cpu-state.sh" },
   { name:"RAM",        c:"/bin/bash -c top\t-bn1\t-p1|sed\t-n\t4,5p" },
-  { name:"Disk",       c:"/bin/df -m /" },
   { name:"WLANs",      c:"/bin/bash "+sDirname+"/wlan-state.sh" },
-  { name:"Wifi",       c:"/sbin/ip addr show mlan0" },
-  { name:"Wifi P2P",   c:"/sbin/ip addr show p2p0" },
-  { name:"USB",        c:"/sbin/ip addr show usb0" },
-  { name:"Kernel",     c:"/bin/uname -srv" },
+  { name:"Wifi",       c:"/bin/ip addr show mlan0" },
+  { name:"P2P",        c:"/bin/ip addr show p2p0" },
+  { name:"USB",        c:"/bin/ip addr show usb0" },
+  { name:"Speaker",    c:"/bin/printf " },
+  { name:"LEDs",       c:"/bin/bash "+sDirname+"/led-state.sh /sys/class/leds" },
   { name:"Processes",  c:"/bin/ps -FN --ppid 2,"+fmt.Sprintf("%d", os.Getpid())+" --sort=-rss" },
 }
 
