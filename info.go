@@ -86,40 +86,15 @@ var sStatDoor sync.Mutex
 
 func reqStat(oResp http.ResponseWriter, iReq *http.Request) {
   sStatDoor.Lock()
-  var aPidLink = make(chan int, len(sCmdList))
   var aHerd sync.WaitGroup
-  var fExec func(*tCommand)
-  var fRun = func() {
-    var aProc *tCommand
-    for a := range sCmdList {
-      if sCmdList[a].name == "PS" {
-        aProc = &sCmdList[a]
-      } else {
-        aHerd.Add(1)
-        go fExec(&sCmdList[a])
-      }
-    }
-    aChildren := "--ppid "
-    for a := 1; a < len(sCmdList); a++ {
-      aChildren += fmt.Sprintf("%d,", <- aPidLink)
-    }
-    aTmp := aProc.c
-    aProc.c = strings.Replace(aProc.c, "--ppid ", aChildren, 1)
-    fExec(aProc)
-    aProc.c = aTmp
-    aHerd.Wait()
-  }
-  fExec = func(aC *tCommand) {
-fmt.Println(aC.name, aC.c)
+
+  fExec := func(aC *tCommand) {
     aArgs := strings.Split(aC.c, " ")
     aCmd := exec.Command(aArgs[0], aArgs[1:]...)
     aPipe, err := aCmd.StdoutPipe()
     if err != nil { panic(err) }
     err = aCmd.Start()
     if err != nil { panic(err) }
-    if aC.name != "PS" {
-      aPidLink <- aCmd.Process.Pid
-    }
     aBuf := make([]byte, 512)
     for err = nil; err == nil; {
       var aLen int
@@ -134,12 +109,24 @@ fmt.Println(aC.name, aC.c)
     }
     err = aCmd.Wait()
     if err != nil { fmt.Fprintln(os.Stderr, aC.name, err) }
+fmt.Println(aC.name, aC.c)
     if aC.name != "PS" {
       aHerd.Done()
     }
   }
 
-  fRun()
+  var aProc *tCommand
+  for a := range sCmdList {
+    if sCmdList[a].name == "PS" {
+      aProc = &sCmdList[a]
+    } else {
+      aHerd.Add(1)
+      go fExec(&sCmdList[a])
+    }
+  }
+  aHerd.Wait()
+  fExec(aProc)
+
   aTable := make([]byte, 0, 8192)
   aTable = append(aTable, "<table>\n"...);
   const kRow = "<tr><td class=\"stat\">%s</td><td><pre>%s</pre></td></tr>\n"
