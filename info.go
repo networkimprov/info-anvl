@@ -40,6 +40,7 @@ func main() {
           os.Exit(1)
         }
     }
+    for i,a := range sCmdList { sCmdList[i].c = strings.Replace(a.c, "###", sDirname, 1) }
     sTmpl, err = template.ParseFiles(sDirname+"/pagetmpl.html")
     if err != nil { panic(err) }
     fmt.Println("ready")
@@ -69,16 +70,16 @@ type tCommand struct { name, c string; buf []byte }
 var sCmdList = [...]tCommand {
   { name:"Date",       c:"/bin/date" },
   { name:"Kernel",     c:"/bin/uname -srv" },
-  { name:"Battery",    c:"/bin/bash "+sDirname+"/batt-state.sh" },
+  { name:"Battery",    c:"/bin/bash ###/batt-state.sh" },
   { name:"Disk",       c:"/bin/df -m /" },
-  { name:"CPU",        c:"/bin/bash "+sDirname+"/cpu-state.sh" },
-  { name:"RAM",        c:"/bin/bash "+sDirname+"/mem-state.sh" },
-  { name:"WLANs",      c:"/bin/bash "+sDirname+"/wlan-state.sh" },
+  { name:"CPU",        c:"/bin/bash ###/cpu-state.sh" },
+  { name:"RAM",        c:"/bin/bash ###/mem-state.sh" },
+  { name:"WLANs",      c:"/bin/bash ###/wlan-state.sh" },
   { name:"Wifi",       c:"/bin/ip addr show mlan0" },
   { name:"P2P",        c:"/bin/ip addr show p2p0" },
   { name:"USB",        c:"/bin/ip addr show usb0" },
-  { name:"Audio",      c:"/bin/bash "+sDirname+"/audio-state.sh" },
-  { name:"LEDs",       c:"/bin/bash "+sDirname+"/led-state.sh" },
+  { name:"Audio",      c:"/bin/bash ###/audio-state.sh" },
+  { name:"LEDs",       c:"/bin/bash ###/led-state.sh" },
   { name:"PS",         c:"/bin/ps -FN --pid 2 --ppid 2,"+fmt.Sprintf("%d", os.Getpid())+" --sort=-time,-rss" },
 }
 
