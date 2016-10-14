@@ -77,7 +77,7 @@ var sCmdList = [...]tCommand {
   { name:"Wifi",       c:"/bin/ip addr show mlan0" },
   { name:"P2P",        c:"/bin/ip addr show p2p0" },
   { name:"USB",        c:"/bin/ip addr show usb0" },
-  { name:"Speaker",    c:"/bin/printf " },
+  { name:"Audio",      c:"/bin/bash "+sDirname+"/audio-state.sh" },
   { name:"LEDs",       c:"/bin/bash "+sDirname+"/led-state.sh" },
   { name:"PS",         c:"/bin/ps -FN --pid 2 --ppid 2,"+fmt.Sprintf("%d", os.Getpid())+" --sort=-time,-rss" },
 }
