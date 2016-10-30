@@ -36,6 +36,7 @@ import (
 )
 
 var sDirname = filepath.Dir(os.Args[0])+"/share"
+var sDebug = strings.Contains(os.Args[0], "-debug")
 
 var sTmpl *template.Template
 type tPageData struct { Title string; Main []byte }
@@ -95,7 +96,7 @@ type tCommand struct { name, c string; f func(*tCommand); buf []byte }
 func statDate(oC *tCommand) {
     aS := time.Now().Format("15:04:05 MST Mon 02 Jan 2006")
     oC.buf = append(oC.buf, aS...)
-    fmt.Println(oC.name)
+    if sDebug { fmt.Println(oC.name) }
 }
 
 func statKernel(oC *tCommand) {
@@ -103,7 +104,7 @@ func statKernel(oC *tCommand) {
     var aBlank []byte
     oC.buf = bytes.Replace(oC.buf, []byte("version "), aBlank, 2)
     oC.buf = bytes.Replace(oC.buf, []byte("(liam@localhost) "), aBlank, 1)
-    fmt.Println(oC.name)
+    if sDebug { fmt.Println(oC.name) }
 }
 
 func statBattery(oC *tCommand) {
@@ -125,7 +126,7 @@ func statBattery(oC *tCommand) {
   const kFields = "%-11s  %-11s  %-11s  %s\n"
   oC.buf = []byte(fmt.Sprintf(kFields+kFields,
     "Online", "Charge", "Status", "Health", aOnline, aCharge, aStatus, aHealth))
-  fmt.Println(oC.name)
+  if sDebug { fmt.Println(oC.name) }
 }
 
 func statCpu(oC *tCommand) {
@@ -150,7 +151,7 @@ func statCpu(oC *tCommand) {
   }
   oC.buf = []byte(fmt.Sprintf("%-6s  %-6s  %-6s  %-6s  %-6s  %-6s  %-6s\n%s\n",
     "User %", "Niced", "System", "Idle", "IOWait", "IRQ", "SoftIRQ", aArg))
-  fmt.Println(oC.name)
+  if sDebug { fmt.Println(oC.name) }
 }
 
 func InsertByte(s []byte, p int, b byte) []byte {
@@ -178,7 +179,7 @@ func statRam(oC *tCommand) {
   oC.buf = []byte(fmt.Sprintf(kFieldTxt+kFieldNum,
     aPair[0][0], aPair[1][0], aPair[2][0], aPair[3][0], aPair[4][0],
     aPair[0][1], aPair[1][1], aPair[2][1], aPair[3][1], aPair[4][1]))
-  fmt.Println(oC.name)
+  if sDebug { fmt.Println(oC.name) }
 }
 
 func statWlans(oC *tCommand) {
@@ -206,7 +207,7 @@ func statWlans(oC *tCommand) {
     }
   }
   oC.buf = append(oC.buf, '\n')
-  fmt.Println(oC.name)
+  if sDebug { fmt.Println(oC.name) }
 }
 
 func statAudio(oC *tCommand) {
@@ -242,7 +243,7 @@ func statAudio(oC *tCommand) {
   oC.buf = append(oC.buf, "</tr></table>"...)
 
   C.alsactl_close(aCtx)
-  fmt.Println(oC.name)
+  if sDebug { fmt.Println(oC.name) }
 }
 
 func statLeds(oC *tCommand) {
@@ -273,7 +274,7 @@ lRestart:
     }
     oC.buf = append(oC.buf, fmt.Sprintf(kFields, a.Name(), aBright, aDelayOn, aDelayOff, aTriggr)...)
   }
-  fmt.Println(oC.name)
+  if sDebug { fmt.Println(oC.name) }
 }
 
 var sCmdList = [...]tCommand {
@@ -319,7 +320,7 @@ func reqStat(oResp http.ResponseWriter, iReq *http.Request) {
     }
     err = aCmd.Wait()
     if err != nil { fmt.Fprintln(os.Stderr, aC.name, err) }
-fmt.Println(aC.name, aC.c)
+    if sDebug { fmt.Println(aC.name, aC.c) }
     if aC.name != "PS" {
       aHerd.Done()
     }
